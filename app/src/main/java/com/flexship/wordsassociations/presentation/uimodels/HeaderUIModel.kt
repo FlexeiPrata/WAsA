@@ -9,6 +9,6 @@ data class HeaderUIModel(
 
     override fun id() = tag
 
-    override fun getUIContent() = data
+    override fun getUIContent(): MutableList<Any> = mutableListOf(data)
 
 }

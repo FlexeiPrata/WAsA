@@ -9,6 +9,6 @@ data class WordUIModel(
 ): Item {
 
     override fun id() = tag
-    override fun getUIContent() = word
+    override fun getUIContent(): MutableList<Any> = mutableListOf(word)
 
 }

@@ -7,8 +7,8 @@ interface State
 interface Action
 interface Item{
     fun id(): Any
-    fun getUIContent(): Any
+    fun getUIContent(): MutableList<Any>
 }
-abstract class  ItemViewHolder<VB: ViewBinding, I: Item>(binding: VB): RecyclerView.ViewHolder(binding.root){
+abstract class  ItemViewHolder<I: Item>(binding: ViewBinding): RecyclerView.ViewHolder(binding.root){
     abstract fun bind(item: I)
 }
