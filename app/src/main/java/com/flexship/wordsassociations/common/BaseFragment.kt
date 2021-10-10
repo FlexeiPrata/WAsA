@@ -12,9 +12,7 @@ abstract class BaseFragment<VB : ViewBinding, S : State> : Fragment() {
 
     private lateinit var _binding: VB
 
-    fun requestBinding(): VB{
-        return _binding ?: throw Exception("Not attached")
-    }
+    val binding get() = _binding
 
 
     override fun onCreateView(
@@ -23,7 +21,7 @@ abstract class BaseFragment<VB : ViewBinding, S : State> : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = setupViewBinding(inflater, container)
-        return requestBinding().root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

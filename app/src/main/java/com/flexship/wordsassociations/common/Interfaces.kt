@@ -12,3 +12,4 @@ interface Item{
 abstract class  ItemViewHolder<I: Item>(binding: ViewBinding): RecyclerView.ViewHolder(binding.root){
     abstract fun bind(item: I)
 }
+interface Payloadable

@@ -8,7 +8,7 @@ class WordsApiHelper @Inject constructor(private val apiService: WordsApiService
         apikey = API_KEY,
         text = word,
         lang = "ru",
-        limit = 20,
+        limit = 40,
         type = "response"
     )
 }
