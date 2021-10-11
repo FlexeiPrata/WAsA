@@ -47,7 +47,7 @@ class WordsAdapter: ListAdapter<Item, ItemViewHolder<*>>(DiffUtilStt) {
 
     inner class HeaderViewHolder(private val binding: AdapterHeaderBinding): ItemViewHolder<HeaderUIModel>(binding){
         override fun bind(item: HeaderUIModel) {
-            binding.headerText.text = item.data
+            binding.headerText.text = binding.root.context.getString(item.data)
         }
     }
 

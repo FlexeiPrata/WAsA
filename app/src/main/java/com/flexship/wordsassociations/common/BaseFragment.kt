@@ -26,10 +26,13 @@ abstract class BaseFragment<VB : ViewBinding, S : State> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupStateObserver()
         setupViews()
     }
 
     abstract fun setupViews()
+
+    abstract fun setupStateObserver()
 
     abstract fun setupViewBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 

@@ -1,5 +1,6 @@
 package com.flexship.wordsassociations.domain
 
+import com.flexship.wordsassociations.R
 import com.flexship.wordsassociations.common.Item
 import com.flexship.wordsassociations.data.models.Words
 import com.flexship.wordsassociations.presentation.uimodels.HeaderUIModel
@@ -14,17 +15,19 @@ class GetWordsResponseUseCaseImpl @Inject constructor(private val repository: Ma
         val response = repository.getWordsResponse(word)
         val list = mutableListOf<Words>()
         list.addAll(response?.response?.get(0)?.items ?: emptyList())
-        return mutableListOf<Item>(HeaderUIModel("header1", "Часто вспоминаемые")).apply {
+        return mutableListOf<Item>(HeaderUIModel("header1", R.string.fr_70)).apply {
 
-            addAll(list.filter {
+            addAll(
+                list.filter {
                 it.weight > 70
-            }.mapIndexed { index, words -> WordUIModel(index.toString(), words) })
+            }.mapIndexed { index, words -> WordUIModel("top$index", words) })
 
-            add(HeaderUIModel("header2", "Реже встречаемые"))
+            add(HeaderUIModel("header2", R.string.fr_30))
 
-            addAll(list.filter {
+            addAll(
+                list.filter {
                 it.weight <= 70
-            }.mapIndexed { index, words -> WordUIModel(index.toString(), words) })
+            }.mapIndexed { index, words -> WordUIModel("bottom$index", words) })
 
         }
 

@@ -9,10 +9,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.flexship.wordsassociations.common.Action
-import com.flexship.wordsassociations.common.BaseFragment
-import com.flexship.wordsassociations.common.Item
-import com.flexship.wordsassociations.common.State
+import com.flexship.wordsassociations.common.*
 import com.flexship.wordsassociations.databinding.FragmentMenuBinding
 import com.flexship.wordsassociations.presentation.adapters.WordsAdapter
 import com.flexship.wordsassociations.presentation.uimodels.WordUIModel
@@ -53,6 +50,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates>(
             }
             is MainStates.SetupWords -> {
                 adapter.submitList(state.words)
+                binding.recycler.smoothScrollToPosition(0)
                 render(MainStates.Static)
             }
             MainStates.Static -> {
@@ -62,20 +60,25 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates>(
     }
 
     override fun setupViews() {
+        adapter = WordsAdapter()
+        binding.apply {
+            recycler.layoutManager = LinearLayoutManager(requireContext())
+            recycler.adapter = adapter
+            getResponse.setOnClickListener {
+                val textRequest = binding.textInput.text.toString()
+                hideKeyboardFrom(binding.root)
+                viewModel.handleAction(MainActions.GetWordsStimulus(textRequest))
+            }
+        }
+    }
+
+    override fun setupStateObserver() {
         lifecycleScope.launchWhenCreated {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collectLatest {
                     render(it)
                 }
             }
-        }
-        adapter = WordsAdapter()
-        binding.recycler.layoutManager = LinearLayoutManager(requireContext())
-        binding.recycler.adapter = adapter
-
-        binding.getResponse.setOnClickListener {
-            val textRequest = binding.textInput.text.toString()
-            viewModel.handleAction(MainActions.GetWordsStimulus(textRequest))
         }
     }
 }

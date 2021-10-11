@@ -9,9 +9,9 @@
         android:id="@+id/icon_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_36sdp"
         app:layout_constraintBottom_toBottomOf="@+id/wordText"
-        app:layout_constraintEnd_toStartOf="@+id/fr_text"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/wordText"
         app:srcCompat="@drawable/ic_fr" />
 
@@ -19,11 +19,13 @@
         android:id="@+id/fr_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/_8sdp"
-        android:text="TextView"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/blueberry"
         app:layout_constraintBottom_toBottomOf="@+id/icon_1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/icon_1" />
+        app:layout_constraintStart_toEndOf="@+id/icon_1"
+        app:layout_constraintTop_toTopOf="@+id/icon_1"
+        tools:text="100" />
 
     <ImageView
         android:id="@+id/icon_0"
@@ -42,7 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_8sdp"
-        android:text="TextView"
+        android:fontFamily="@font/roboto_light"
+        android:textColor="@color/blueberry"
+        tools:text="Word"
         app:layout_constraintBottom_toBottomOf="@+id/icon_0"
         app:layout_constraintStart_toEndOf="@+id/icon_0"
         app:layout_constraintTop_toTopOf="@+id/icon_0" />

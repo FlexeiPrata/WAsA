@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Words Associations</string>
+    <string name="parse">Получить</string>
+    <string name="fr_70">Часто приходят на ум</string>
+    <string name="fr_30">Реже приходят на ум</string>
 </resources>
