@@ -2,7 +2,6 @@ package com.flexship.wordsassociations.presentation.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.flexship.wordsassociations.common.*
 import com.flexship.wordsassociations.databinding.FragmentMenuBinding
 import com.flexship.wordsassociations.presentation.adapters.WordsAdapter
-import com.flexship.wordsassociations.presentation.uimodels.WordUIModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -26,12 +24,12 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates>(
         data class GetWordsStimulus(val word: String) : MainActions()
     }
 
-    sealed class MainStates : State {
-        object Loading : MainStates()
-        object Static: MainStates()
-        data class SetupWords(val words: List<Item>) : MainStates()
-        data class Error(val message: String) : MainStates()
-    }
+    data class MainStates(
+        override var isLoading: Boolean = false,
+        var listForSubmit: List<Item>? = null
+    ) : State
+
+    override var state = MainStates()
 
     override fun setupViewBinding(
         inflater: LayoutInflater,
@@ -42,20 +40,10 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates>(
 
 
     override fun render(state: MainStates) {
-        when (state) {
-            is MainStates.Error -> Toast.makeText(requireContext(), "Error!", Toast.LENGTH_SHORT)
-                .show()
-            MainStates.Loading -> {
-                binding.progressBar.isVisible = true
-            }
-            is MainStates.SetupWords -> {
-                adapter.submitList(state.words)
-                binding.recycler.smoothScrollToPosition(0)
-                render(MainStates.Static)
-            }
-            MainStates.Static -> {
-                binding.progressBar.isVisible = false
-            }
+        binding.progressBar.isVisible = state.isLoading
+        state.listForSubmit?.let {
+            adapter.submitList(it)
+            binding.recycler.smoothScrollToPosition(0)
         }
     }
 

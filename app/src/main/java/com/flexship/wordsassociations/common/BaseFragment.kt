@@ -10,10 +10,16 @@ import kotlin.Exception
 
 abstract class BaseFragment<VB : ViewBinding, S : State> : Fragment() {
 
-    private lateinit var _binding: VB
+    private var _binding: VB? = null
 
-    val binding get() = _binding
+    val binding get() = _binding ?: throw Exception("Binding is can not be accessed.")
 
+    open lateinit var state: S
+
+    open var errorAction = {
+        state.isLoading = false
+        render(state)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +36,7 @@ abstract class BaseFragment<VB : ViewBinding, S : State> : Fragment() {
         setupViews()
     }
 
+
     abstract fun setupViews()
 
     abstract fun setupStateObserver()
@@ -38,9 +45,10 @@ abstract class BaseFragment<VB : ViewBinding, S : State> : Fragment() {
 
     abstract fun render(state: S)
 
-    /*override fun onDestroyView() {
+    override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }*/
+    }
+
 
 }

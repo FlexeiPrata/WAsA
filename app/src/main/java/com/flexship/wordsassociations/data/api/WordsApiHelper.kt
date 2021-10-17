@@ -11,4 +11,14 @@ class WordsApiHelper @Inject constructor(private val apiService: WordsApiService
         limit = 40,
         type = "response"
     )
+
+    suspend fun getWordsByList(listWords: List<String>, type: String, limit: Int) =
+        apiService.getWordsByList(
+            apikey = API_KEY,
+            wordsList = listWords,
+            lang = "ru",
+            limit = limit,
+            type = type
+        )
+
 }

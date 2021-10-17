@@ -8,4 +8,7 @@ abstract class BaseViewModel<A: Action, S: State>: ViewModel() {
     abstract val state: MutableStateFlow<S>
 
     abstract fun handleAction(action: A)
+    open fun handleHTTPerror(){
+
+    }
 }
