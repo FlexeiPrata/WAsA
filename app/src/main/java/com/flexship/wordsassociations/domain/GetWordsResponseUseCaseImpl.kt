@@ -11,8 +11,8 @@ import javax.inject.Inject
 class GetWordsResponseUseCaseImpl @Inject constructor(private val repository: MainRepository) :
     GetWordsResponseUseCase {
 
-    override suspend fun invoke(word: String): List<Item> {
-        val response = repository.getWordsResponse(word)
+    override suspend fun invoke(word: String, pos: List<String>): List<Item> {
+        val response = repository.getWordsResponse(word, pos)
         val list = mutableListOf<Words>()
         list.addAll(response?.response?.get(0)?.items ?: emptyList())
         return mutableListOf<Item>(HeaderUIModel("header1", R.string.fr_70)).apply {

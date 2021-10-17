@@ -18,7 +18,9 @@ interface WordsApiService {
 
     @GET("/associations/v1.0/json/search")
     suspend fun getWordsByMap(
-        @QueryMap paramsMap: Map<String, String>
+        @QueryMap paramsMap: Map<String, String>,
+        @Query("text") text: List<String>,
+        @Query("pos") pos: List<String>
     ): Response<WordsBasicResponse>
 
     @GET("/associations/v1.0/json/search")
@@ -27,7 +29,8 @@ interface WordsApiService {
         @Query("text") wordsList: List<String>,
         @Query("lang") lang: String,
         @Query("limit") limit: Int,
-        @Query("type") type: String
+        @Query("type") type: String,
+        @Query("pos") pos: List<String>
     ): Response<WordsBasicResponse>
 }
 

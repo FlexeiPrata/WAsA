@@ -3,4 +3,16 @@
     <string name="parse">Получить</string>
     <string name="fr_70">Часто приходят на ум</string>
     <string name="fr_30">Реже приходят на ум</string>
+    
+    <string name="noun">Существ.</string>
+    <string name="adjective">Прилагат.</string>
+    <string name="verb">Глаголы</string>
+    <string name="adverb">Наречия</string>
+    <string name="add">Добавить</string>
+    <string name="game_hint">Добавьте слово</string>
+    <string name="guess">Угадать</string>
+    <string name="maybe">Возможно, это</string>
+
+    <string name="guess_text">Введённые слова (%s/10):\n</string>
+    <string name="or">или что-то из этого:</string>
 </resources>

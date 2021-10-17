@@ -2,8 +2,10 @@ package com.flexship.wordsassociations.di
 
 import com.flexship.wordsassociations.data.api.MainRepositoryImpl
 import com.flexship.wordsassociations.domain.GetWordsResponseUseCaseImpl
+import com.flexship.wordsassociations.domain.GuessTheWordUseCaseImpl
 import com.flexship.wordsassociations.domain.MainRepository
 import com.flexship.wordsassociations.presentation.usecases.GetWordsResponseUseCase
+import com.flexship.wordsassociations.presentation.usecases.GuessTheWordUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +19,7 @@ abstract class BindsModule {
 
     @Binds
     abstract fun bindsGetWordsUseCase(impl: GetWordsResponseUseCaseImpl): GetWordsResponseUseCase
+
+    @Binds
+    abstract fun bindsGuessUseCase(impl: GuessTheWordUseCaseImpl): GuessTheWordUseCase
 }
