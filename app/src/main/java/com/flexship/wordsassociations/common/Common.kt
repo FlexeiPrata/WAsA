@@ -17,14 +17,14 @@ fun hideKeyboardFrom(view: View) {
 }
 
 fun CoroutineScope.launchOnNetwork(
-    viewModel: BaseViewModel<* ,*>,
+    errorHandler: ErrorHandler,
     action: suspend () -> Unit
 ) {
     this.launch(Dispatchers.IO) {
         try {
             action()
         } catch (ex: Exception) {
-            viewModel.handleHTTPerror()
+            errorHandler.handleError(ex)
         }
     }
 

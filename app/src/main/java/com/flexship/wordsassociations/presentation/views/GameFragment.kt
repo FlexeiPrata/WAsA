@@ -17,9 +17,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState>() {
+class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, GameViewModel>() {
 
-    private val viewModel: GameViewModel by viewModels()
+    override val viewModel: GameViewModel by viewModels()
 
     data class GameState(
         override var isLoading: Boolean = false,

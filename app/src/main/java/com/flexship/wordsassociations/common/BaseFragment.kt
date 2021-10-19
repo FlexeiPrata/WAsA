@@ -4,15 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import kotlin.Exception
 
-abstract class BaseFragment<VB : ViewBinding, S : State> : Fragment() {
+abstract class BaseFragment<VB : ViewBinding, S : State, VM: BaseViewModel<*, S>> : Fragment() {
 
     private var _binding: VB? = null
 
     val binding get() = _binding ?: throw Exception("Binding is can not be accessed.")
+
+    abstract val viewModel: VM
 
     open lateinit var state: S
 
@@ -34,6 +37,11 @@ abstract class BaseFragment<VB : ViewBinding, S : State> : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupStateObserver()
         setupViews()
+        viewModel.errorHandler = ErrorHandler(this::showToast)
+    }
+
+    fun showToast(message: Int){
+        Toast.makeText(requireContext(), getString(message), Toast.LENGTH_LONG).show()
     }
 
 

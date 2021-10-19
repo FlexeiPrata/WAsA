@@ -28,7 +28,7 @@ class GameViewModel @Inject constructor(
                 state.value = state.value.copy(wordsList = mutableListOf())
             }
             GameFragment.GameActions.Guess -> {
-                viewModelScope.launchOnNetwork(this) {
+                viewModelScope.launchOnNetwork(errorHandler) {
                     state.value = state.value.copy(isLoading = true)
                     val response = guessTheWordUseCase(listOfGuess)
                     state.value = state.value.copy(guessWord = response.toMutableList())

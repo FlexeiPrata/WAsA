@@ -5,10 +5,9 @@ import com.flexship.wordsassociations.common.BaseViewModel
 import com.flexship.wordsassociations.common.launchOnNetwork
 import com.flexship.wordsassociations.presentation.usecases.GetWordsResponseUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +23,7 @@ class MainViewModel @Inject constructor(
     override fun handleAction(action: MenuFragment.MainActions) {
         when (action) {
             is MenuFragment.MainActions.GetWordsStimulus ->
-                viewModelScope.launch(Dispatchers.IO) {
+                viewModelScope.launchOnNetwork(errorHandler) {
                     state.value = state.value.copy(
                         isLoading = true
                     )
@@ -40,7 +39,9 @@ class MainViewModel @Inject constructor(
     }
 
 
-    override fun handleHTTPerror() {
+    override fun handleHTTPerror(exception: Exception) {
+        println("DEBUG:: exception: ${exception}, cause: ${exception.message}")
+
         state.value = state.value.copy(isLoading = false)
     }
 }

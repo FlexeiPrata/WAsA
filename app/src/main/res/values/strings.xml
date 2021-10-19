@@ -15,4 +15,10 @@
 
     <string name="guess_text">Введённые слова (%s/10):\n</string>
     <string name="or">или что-то из этого:</string>
+    <string name="no_internet_connection">Нет подключения к интернету</string>
+    <string name="invalid_api_key">API ключ устарел. Приложение более недоступно.</string>
+    <string name="request_error">Превышено количество запрос к серверу. Приложение недоступно.</string>
+    <string name="language_error">Проблема с поддержкой русского языка на сервере, повторите попытку позже.</string>
+    <string name="general_http_error">Неизвестная ошибка на сервере.</string>
+    <string name="generic_error">Неизвестная ошибка при запроса на сервер.</string>
 </resources>
