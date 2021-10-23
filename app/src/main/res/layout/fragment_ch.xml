@@ -7,42 +7,62 @@
     android:background="@color/white">
 
     <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:cropToPadding="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/app_wp_m"
+        tools:layout_editor_absoluteY="12dp" />
+
+    <ImageView
         android:id="@+id/imageView"
-        android:layout_width="@dimen/_120sdp"
-        android:layout_height="@dimen/_120sdp"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_60sdp"
         android:layout_marginTop="@dimen/_100sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:elevation="@dimen/_10sdp"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_word" />
+        app:srcCompat="@drawable/app_logo" />
 
     <Button
         android:id="@+id/button_main"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/flex_button"
         android:layout_marginTop="@dimen/_64sdp"
-        android:text="Ассоциации к словам"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        android:text="@string/menu_1"
+        android:layout_marginHorizontal="@dimen/_24sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
         android:id="@+id/button_game_1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/flex_button"
         android:layout_marginTop="20dp"
-        android:text="Угадать по ассоциациям"
-        app:layout_constraintEnd_toEndOf="@+id/button_main"
-        app:layout_constraintStart_toStartOf="@+id/button_main"
+        android:text="@string/menu_2"
+        android:layout_marginHorizontal="@dimen/_24sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_main" />
 
     <Button
         android:id="@+id/button_info"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Информация"
-        app:layout_constraintEnd_toEndOf="@+id/button_game_1"
-        app:layout_constraintStart_toStartOf="@+id/button_game_1"
+        style="@style/flex_button"
+        android:text="@string/menu_3"
+        android:layout_marginHorizontal="@dimen/_24sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_game_1" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

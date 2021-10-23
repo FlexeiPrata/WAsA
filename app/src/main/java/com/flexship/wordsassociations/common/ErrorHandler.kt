@@ -5,11 +5,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
+import java.net.UnknownHostException
 
 class ErrorHandler(private val baseHandling: (Int) -> Unit) {
     suspend fun handleError(exception: Exception) {
         val message = when (exception) {
-            is IOException -> R.string.no_internet_connection
+            is UnknownHostException -> R.string.no_internet_connection
             is HttpException -> {
                 when (exception.code()) {
                     401 -> R.string.invalid_api_key

@@ -42,12 +42,15 @@ abstract class BaseFragment<VB : ViewBinding, S : State, VM: BaseViewModel<*, S>
 
     fun showToast(message: Int){
         Toast.makeText(requireContext(), getString(message), Toast.LENGTH_LONG).show()
+        suspendLoading()
     }
 
 
     abstract fun setupViews()
 
     abstract fun setupStateObserver()
+
+    open fun suspendLoading(){}
 
     abstract fun setupViewBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 

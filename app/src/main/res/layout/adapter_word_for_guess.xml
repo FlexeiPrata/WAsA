@@ -6,25 +6,11 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/fr_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto_light"
-        android:textColor="@color/blueberry"
-        android:drawableEnd="@drawable/ic_fr"
-        android:drawablePadding="@dimen/_6sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="100" />
-
-    <TextView
         android:id="@+id/wordText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_light"
-        android:layout_marginVertical="@dimen/_7sdp"
+        android:layout_marginVertical="@dimen/_4sdp"
         android:textColor="@color/dark_navy"
         android:drawablePadding="@dimen/_6sdp"
         android:drawableStart="@drawable/ic__associ"
@@ -33,4 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Word" />
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close"
+        android:layout_marginEnd="@dimen/_12sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

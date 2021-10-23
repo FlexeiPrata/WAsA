@@ -51,6 +51,4 @@ class WordsAdapter: ListAdapter<Item, ItemViewHolder<*>>(DiffUtilStt) {
         }
     }
 
-
-
 }

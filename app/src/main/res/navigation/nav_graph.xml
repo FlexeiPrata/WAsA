@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.flexship.wordsassociations.presentation.views.MenuFragment"
-        android:label="MenuFragment">
+        android:label="@string/asso_fragment">
         <action
             android:id="@+id/action_menuFragment_to_mainFragment3"
             app:destination="@id/mainFragment3"
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/chFragment"
         android:name="com.flexship.wordsassociations.presentation.views.ChFragment"
-        android:label="ChFragment">
+        android:label="@string/wasa">
         <action
             android:id="@+id/action_chFragment_to_menuFragment"
             app:destination="@id/menuFragment"
@@ -40,5 +40,5 @@
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.flexship.wordsassociations.presentation.views.GameFragment"
-        android:label="GameFragment" />
+        android:label="@string/guess_game" />
 </navigation>

@@ -15,23 +15,24 @@ class GetWordsResponseUseCaseImpl @Inject constructor(private val repository: Ma
         val response = repository.getWordsResponse(word, pos)
         val list = mutableListOf<Words>()
         list.addAll(response?.response?.get(0)?.items ?: emptyList())
-        return mutableListOf<Item>(HeaderUIModel("header1", R.string.fr_70)).apply {
 
-            addAll(
-                list.filter {
-                it.weight > 70
-            }.mapIndexed { index, words -> WordUIModel("top$index", words) })
-
-            add(HeaderUIModel("header2", R.string.fr_30))
-
-            addAll(
-                list.filter {
-                it.weight <= 70
-            }.mapIndexed { index, words -> WordUIModel("bottom$index", words) })
-
+        return mutableListOf<Item>().apply {
+            val strong = list.filter { it.weight > 70 }
+            if (strong.isNotEmpty()) {
+                add(HeaderUIModel("header1", R.string.fr_70))
+                addAll(strong.mapIndexed { index, words -> WordUIModel("strong$index", words) })
+            }
+            val medium = list.filter { it.weight in 31..70 }
+            if (medium.isNotEmpty()) {
+                add(HeaderUIModel("header2", R.string.fr_30))
+                addAll(medium.mapIndexed { index, words -> WordUIModel("medium$index", words) })
+            }
+            val weak = list.filter { it.weight <= 30 }
+            if (medium.isNotEmpty()) {
+                add(HeaderUIModel("header2", R.string.fr_0))
+                addAll(weak.mapIndexed { index, words -> WordUIModel("weak$index", words) })
+            }
         }
 
-
     }
-
 }

@@ -24,8 +24,8 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates, 
 
     sealed class MainActions : Action {
         data class GetWordsStimulus(val word: String) : MainActions()
-        data class AddChip(val chip: String): MainActions()
-        data class RemoveChip(val chip: String): MainActions()
+        data class AddChip(val chip: String) : MainActions()
+        data class RemoveChip(val chip: String) : MainActions()
     }
 
     data class MainStates(
@@ -52,12 +52,15 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates, 
 
     private fun getChips(): List<String> {
         return mutableListOf<String>(
-            getString(R.string.noun), getString(R.string.adjective), getString(R.string.verb), getString(R.string.adverb)
+            getString(R.string.noun),
+            getString(R.string.adjective),
+            getString(R.string.verb),
+            getString(R.string.adverb)
         )
     }
 
-    private fun convertChip(chip: String): String{
-        return when (chip){
+    private fun convertChip(chip: String): String {
+        return when (chip) {
             getString(R.string.noun) -> "noun"
             getString(R.string.adjective) -> "adjective"
             getString(R.string.adverb) -> "adverb"
@@ -74,6 +77,9 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates, 
             getResponse.setOnClickListener {
                 val textRequest = binding.textInput.text.toString()
                 hideKeyboardFrom(binding.root)
+                textInput.clearFocus()
+                textField.clearFocus()
+                //Поменять
                 viewModel.handleAction(MainActions.GetWordsStimulus(textRequest))
             }
         }
@@ -84,7 +90,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates, 
             chip.isCheckable = true
             chip.isChecked = true
             chip.setOnClickListener { thisChip ->
-                if (thisChip is Chip){
+                if (thisChip is Chip) {
                     val chipText = convertChip(thisChip.text.toString())
                     if (thisChip.isChecked) viewModel.handleAction(MainActions.AddChip(chipText))
                     else viewModel.handleAction(MainActions.RemoveChip(chipText))
@@ -104,4 +110,11 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates, 
             }
         }
     }
+
+    override fun suspendLoading() {
+        binding.progressBar.isVisible = false
+    }
+
+
+
 }

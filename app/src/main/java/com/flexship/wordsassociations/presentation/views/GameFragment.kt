@@ -8,11 +8,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.flexship.wordsassociations.R
 import com.flexship.wordsassociations.common.Action
 import com.flexship.wordsassociations.common.BaseFragment
 import com.flexship.wordsassociations.common.State
 import com.flexship.wordsassociations.databinding.FragmentGameBinding
+import com.flexship.wordsassociations.presentation.adapters.GuessAdapter
+import com.flexship.wordsassociations.presentation.uimodels.GuessUIModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
@@ -21,14 +24,17 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
 
     override val viewModel: GameViewModel by viewModels()
 
+    private val adapter = GuessAdapter(::deleteChip)
+
     data class GameState(
         override var isLoading: Boolean = false,
-        var wordsList: MutableList<String> = mutableListOf(),
+        var wordsList: List<GuessUIModel> = emptyList(),
         var guessWord: List<String> = mutableListOf()
     ) : State
 
     sealed class GameActions : Action {
         data class AddWord(val word: String) : GameActions()
+        data class DeleteChip(val chip: String) : GameFragment.GameActions()
         object Clear : GameActions()
         object Guess : GameActions()
     }
@@ -38,15 +44,19 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
             guessLabel.isVisible = false
             guessText.isVisible = false
             buttonAdd.setOnClickListener {
-                val text = textInput.editableText.toString()
-                if (viewModel.listOfGuess.size <= 10 && text.isNotEmpty()) {
-                    viewModel.handleAction(GameActions.AddWord(text))
-                    textInput.editableText.clear()
+                if (state.wordsList.size < 10) {
+                    val text = textInput.editableText.toString()
+                    if (viewModel.listOfGuess.size <= 10 && text.isNotEmpty()) {
+                        viewModel.handleAction(GameActions.AddWord(text))
+                        textInput.editableText.clear()
+                    }
                 }
             }
             guess.setOnClickListener {
                 viewModel.handleAction(GameActions.Guess)
             }
+            chips.layoutManager = LinearLayoutManager(requireContext())
+            chips.adapter = adapter
         }
     }
 
@@ -58,6 +68,7 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
                 }
             }
         }
+        state = GameState()
     }
 
     override fun setupViewBinding(
@@ -67,25 +78,22 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
         return FragmentGameBinding.inflate(inflater, container, false)
     }
 
+    override fun suspendLoading() {
+        binding.loadingBar.isVisible = false
+    }
+
     override fun render(state: GameState) {
         binding.apply {
             loadingBar.isVisible = state.isLoading
-            val final = StringBuilder(
-                String.format(
-                    getString(R.string.guess_text),
-                    viewModel.listOfGuess.size
-                )
-            )
-            state.wordsList.forEachIndexed { index, s ->
-                final.append("\n${index + 1}. $s")
-                println("DEBUG:: $s")
-            }
-            textView.text = final
+
+            binding.headerText.text = String.format(getString(R.string.guess_text, state.wordsList.size.toString()))
+
+            adapter.submitList(state.wordsList)
+
             guessLabel.isVisible = !state.guessWord.isNullOrEmpty()
             guessText.isVisible = !state.guessWord.isNullOrEmpty()
-            guessLabel2.visibility = if (state.guessWord.size > 1) View.VISIBLE else View.INVISIBLE
-            guessTextMinor.visibility =
-                if (state.guessWord.size > 1) View.VISIBLE else View.INVISIBLE
+            guessLabel2.isVisible = state.guessWord.size > 1
+            guessTextMinor.isVisible = state.guessWord.size > 1
             if (state.guessWord.isNotEmpty())
                 guessText.text = state.guessWord.first()
             val stringMinor = StringBuilder()
@@ -97,5 +105,9 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
                 guessTextMinor.text = stringMinor
             }
         }
+    }
+
+    private fun deleteChip(chip: String){
+        viewModel.handleAction(GameActions.DeleteChip(chip))
     }
 }

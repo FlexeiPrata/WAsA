@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Words Associations</string>
     <string name="parse">Получить</string>
-    <string name="fr_70">Часто приходят на ум</string>
-    <string name="fr_30">Реже приходят на ум</string>
-    
+    <string name="fr_70">Сильные ассоциации</string>
+    <string name="fr_30">Умеренные ассоциации</string>
+    <string name="fr_0">Слабые ассоциации</string>
+
     <string name="noun">Существ.</string>
     <string name="adjective">Прилагат.</string>
     <string name="verb">Глаголы</string>
@@ -13,7 +14,7 @@
     <string name="guess">Угадать</string>
     <string name="maybe">Возможно, это</string>
 
-    <string name="guess_text">Введённые слова (%s/10):\n</string>
+    <string name="guess_text">Введено слов - %s/10</string>
     <string name="or">или что-то из этого:</string>
     <string name="no_internet_connection">Нет подключения к интернету</string>
     <string name="invalid_api_key">API ключ устарел. Приложение более недоступно.</string>
@@ -21,4 +22,12 @@
     <string name="language_error">Проблема с поддержкой русского языка на сервере, повторите попытку позже.</string>
     <string name="general_http_error">Неизвестная ошибка на сервере.</string>
     <string name="generic_error">Неизвестная ошибка при запроса на сервер.</string>
+    <string name="menu_1">Ассоциации к словам</string>
+    <string name="menu_2">Угадать по ассоциациям</string>
+    <string name="menu_3">Информация</string>
+    <string name="enter_a_word">Введите слово</string>
+    <string name="asso_fragment">Wasa - ассоциации</string>
+    <string name="wasa">Wasa</string>
+    <string name="guess_game">Wasa - угадать слово</string>
+
 </resources>

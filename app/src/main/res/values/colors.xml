@@ -12,4 +12,6 @@
     <color name="blueberry">#063852</color>
     <color name="tangerine">#F0810F</color>
     <color name="daffodil">#E6DF44</color>
+    <color name="gray_navy">#FBFBFB</color>
+    <color name="sad_gray">#919191</color>
 </resources>

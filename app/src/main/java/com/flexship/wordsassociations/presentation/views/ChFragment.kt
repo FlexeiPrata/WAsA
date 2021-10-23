@@ -12,11 +12,11 @@ import com.flexship.wordsassociations.databinding.FragmentChBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChFragment: BaseFragment<FragmentChBinding, ChFragment.ChState, ChViewModel>() {
+class ChFragment : BaseFragment<FragmentChBinding, ChFragment.ChState, ChViewModel>() {
 
-    data class ChState(override var isLoading: Boolean): State
+    data class ChState(override var isLoading: Boolean) : State
 
-    sealed class ChAction(): Action
+    sealed class ChAction() : Action
 
     override val viewModel: ChViewModel by viewModels()
 
@@ -27,6 +27,15 @@ class ChFragment: BaseFragment<FragmentChBinding, ChFragment.ChState, ChViewMode
         binding.buttonGame1.setOnClickListener {
             findNavController().navigate(ChFragmentDirections.actionChFragmentToGameFragment())
         }
+        animateThem()
+    }
+
+    private fun animateThem() {
+        binding.imageView.animate()
+            .scaleX(2F)
+            .scaleY(2F)
+            .duration =
+            500L
     }
 
     override fun setupStateObserver() {

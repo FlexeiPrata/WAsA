@@ -1,8 +1,5 @@
 package com.flexship.wordsassociations.domain
 
-import com.flexship.wordsassociations.common.Item
-import com.flexship.wordsassociations.data.models.Words
-import com.flexship.wordsassociations.presentation.usecases.GetWordsResponseUseCase
 import com.flexship.wordsassociations.presentation.usecases.GuessTheWordUseCase
 import javax.inject.Inject
 
@@ -11,20 +8,16 @@ class GuessTheWordUseCaseImpl @Inject constructor(private val repository: MainRe
 
     override suspend fun invoke(list: List<String>): List<String> {
         repository.getGuessWords(list)?.let {
-            val set = mutableSetOf<List<String>>()
-            val items = it.response.map {
-                it.items.map {
-                    it.item
+            val items = it.response.map { response ->
+                response.items.map { words ->
+                    words.item
                 }
             }
-            println("DEBUG:: items = $items")
-            val a = items.reduce { acc, list ->
-                val inter = acc.intersect(list).toList()
+            return items.reduce { accumulated, next ->
+                val inter = accumulated.intersect(next).toList()
                 if (inter.isNotEmpty()) inter
-                else acc
+                else accumulated
             }
-            println("DEBUG:: $a")
-            return a
         }
         return emptyList()
     }
