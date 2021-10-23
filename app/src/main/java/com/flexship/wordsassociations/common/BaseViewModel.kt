@@ -10,7 +10,4 @@ abstract class BaseViewModel<A: Action, S: State>: ViewModel() {
     open lateinit var errorHandler: ErrorHandler
 
     abstract fun handleAction(action: A)
-    open fun handleHTTPerror(ex: Exception){
-
-    }
 }

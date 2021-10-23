@@ -3,9 +3,7 @@ package com.flexship.wordsassociations.common
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-interface State{
-    var isLoading: Boolean
-}
+interface State
 interface Action
 interface Item{
     fun id(): Any

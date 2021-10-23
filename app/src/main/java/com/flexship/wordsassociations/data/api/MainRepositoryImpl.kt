@@ -6,11 +6,10 @@ import javax.inject.Inject
 
 class MainRepositoryImpl @Inject constructor(private val helper: WordsApiHelper): MainRepository {
     override suspend fun getWordsResponse(word: String, pos: List<String>): WordsBasicResponse? {
-        //return helper.getWordsByList(listWords = listOf(word), pos = pos, limit = 40, type = "response").body()
-        return helper.getWordsMap(word = listOf(word, ""), pos = pos, limit = 200, type = "stimulus").body()
+        return helper.getWordsFromAPI(word = listOf(word, ""), pos = pos, limit = 200, type = "stimulus")
     }
 
     override suspend fun getGuessWords(listOfWords: List<String>): WordsBasicResponse? {
-        return helper.getWordsMap(word = listOfWords, pos = listOf("noun"), "response", limit = 300).body()
+        return helper.getWordsFromAPI(word = listOfWords, pos = listOf("noun"), "response", limit = 300)
     }
 }

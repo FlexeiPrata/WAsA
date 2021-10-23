@@ -28,10 +28,11 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates, 
         data class RemoveChip(val chip: String) : MainActions()
     }
 
-    data class MainStates(
-        override var isLoading: Boolean = false,
-        var listForSubmit: List<Item>? = null
-    ) : State
+    sealed class MainStates() : State {
+        data class SubmitList(val list: List<Item>): MainStates()
+        object Loading: MainStates()
+        object Default: MainStates()
+    }
 
 
     override fun setupViewBinding(
@@ -42,10 +43,14 @@ class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates, 
     }
 
     override fun render(state: MainStates) {
-        binding.progressBar.isVisible = state.isLoading
-        state.listForSubmit?.let {
-            adapter.submitList(it)
-            binding.recycler.smoothScrollToPosition(0)
+        when (state) {
+            MainStates.Default -> binding.progressBar.isVisible = false
+            MainStates.Loading -> binding.progressBar.isVisible = true
+            is MainStates.SubmitList -> {
+                adapter.submitList(state.list)
+                binding.recycler.smoothScrollToPosition(0)
+                binding.progressBar.isVisible = false
+            }
         }
 
     }

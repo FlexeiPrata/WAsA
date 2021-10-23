@@ -2,7 +2,6 @@ package com.flexship.wordsassociations.presentation.views
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.flexship.wordsassociations.common.Action
@@ -14,9 +13,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ChFragment : BaseFragment<FragmentChBinding, ChFragment.ChState, ChViewModel>() {
 
-    data class ChState(override var isLoading: Boolean) : State
+    sealed class ChState : State {
+        object Default: ChState()
+    }
 
-    sealed class ChAction() : Action
+    sealed class ChAction : Action
 
     override val viewModel: ChViewModel by viewModels()
 

@@ -7,7 +7,6 @@ import com.flexship.wordsassociations.common.Item
 import com.flexship.wordsassociations.common.ItemViewHolder
 import com.flexship.wordsassociations.databinding.AdapterWordForGuessBinding
 import com.flexship.wordsassociations.presentation.uimodels.GuessUIModel
-import com.flexship.wordsassociations.presentation.uimodels.WordUIModel
 
 class GuessAdapter(private val onDelete: (String) -> Unit) : ListAdapter<Item, ItemViewHolder<*>>(DiffUtilStt) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder<*> {

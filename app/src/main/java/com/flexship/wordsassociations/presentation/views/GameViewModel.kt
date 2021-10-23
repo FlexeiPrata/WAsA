@@ -13,7 +13,8 @@ import javax.inject.Inject
 class GameViewModel @Inject constructor(
     private var guessTheWordUseCase: GuessTheWordUseCase
 ) : BaseViewModel<GameFragment.GameActions, GameFragment.GameState>() {
-    override val state = MutableStateFlow(GameFragment.GameState())
+    override val state: MutableStateFlow<GameFragment.GameState> =
+        MutableStateFlow(GameFragment.GameState.Default)
 
     val listOfGuess = mutableListOf<String>()
 
@@ -21,35 +22,27 @@ class GameViewModel @Inject constructor(
         when (action) {
             is GameFragment.GameActions.AddWord -> {
                 listOfGuess.add(action.word)
-                println("DEBUG:: $listOfGuess")
-                state.value = state.value.copy(wordsList = listOfGuess.mapToWordsUIModel())
+                state.value = GameFragment.GameState.SubmitWords(listOfGuess.mapToWordsUIModel())
             }
-            GameFragment.GameActions.Clear -> {
-                listOfGuess.clear()
-                state.value = state.value.copy(wordsList = mutableListOf())
-            }
-            GameFragment.GameActions.Guess -> {
-                viewModelScope.launchOnNetwork(errorHandler) {
-                    state.value = state.value.copy(isLoading = true)
-                    val response = guessTheWordUseCase(listOfGuess)
-                    state.value = state.value.copy(guessWord = response.toMutableList())
-                    state.value = state.value.copy(isLoading = false)
-                }
-
-            }
+            GameFragment.GameActions.Guess -> guess()
             is GameFragment.GameActions.DeleteChip -> {
                 listOfGuess.remove(action.chip)
-                state.value = state.value.copy(wordsList = listOfGuess.mapToWordsUIModel())
+                state.value = GameFragment.GameState.SubmitWords(listOfGuess.mapToWordsUIModel())
             }
         }
     }
-}
 
-fun MutableList<String>.mapToWordsUIModel(): List<GuessUIModel> {
-    return this.map { s ->
-        GuessUIModel(
-            tag = "guess$s",
-            s
-        )
+    private fun MutableList<String>.mapToWordsUIModel(): List<GuessUIModel> {
+        return this.map {
+            GuessUIModel("guess$it", it)
+        }
+    }
+
+    private fun guess() {
+        viewModelScope.launchOnNetwork(errorHandler) {
+            state.value = GameFragment.GameState.Loading
+            val response = guessTheWordUseCase(listOfGuess)
+            state.value = GameFragment.GameState.SubmitHunch(response)
+        }
     }
 }

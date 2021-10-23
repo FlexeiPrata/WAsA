@@ -19,11 +19,6 @@ abstract class BaseFragment<VB : ViewBinding, S : State, VM: BaseViewModel<*, S>
 
     open lateinit var state: S
 
-    open var errorAction = {
-        state.isLoading = false
-        render(state)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
