@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Words Associations</string>
+    <string name="app_name">Wasa</string>
     <string name="parse">Получить</string>
     <string name="fr_70">Сильные ассоциации</string>
     <string name="fr_30">Умеренные ассоциации</string>
@@ -29,5 +29,7 @@
     <string name="asso_fragment">Wasa - ассоциации</string>
     <string name="wasa">Wasa</string>
     <string name="guess_game">Wasa - угадать слово</string>
+    <string name="title">Информация о приложении</string>
+    <string name="message">Приложение разработано Бырна Алексеем на базе API проекта Сеть Словесных Ассоциаций\nВерсия приложения: 0.1.0-beta02\nПри использовании текущей версии приложения могут возникать проблемы.\nРелизная версия приложения будет выложена на github в репозитории пользователя FlexeiPrata.</string>
 
 </resources>

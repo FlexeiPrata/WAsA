@@ -1,7 +1,6 @@
 package com.flexship.wordsassociations.presentation.views
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -46,6 +45,7 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
             guessText.isVisible = false
             guessLabel2.isVisible = false
             guessTextMinor.isVisible = false
+            dividerGuess.isVisible = false
             buttonAdd.setOnClickListener {
                 if (adapter.itemCount < 10) {
                     val text = textInput.editableText.toString()
@@ -57,10 +57,12 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
             }
             guess.setOnClickListener {
                 viewModel.handleAction(GameActions.Guess)
-                hideKeyboardFrom(binding.root)
+                hideKeyboardFrom(it)
             }
             chips.layoutManager = LinearLayoutManager(requireContext())
             chips.adapter = adapter
+            headerText.text =
+                String.format(getString(R.string.guess_text, "0"))
         }
     }
 
@@ -104,6 +106,7 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
             guessText.isVisible = guessWord.isNotEmpty()
             guessLabel2.isVisible = guessWord.size > 1
             guessTextMinor.isVisible = guessWord.size > 1
+            dividerGuess.isVisible = guessWord.size > 1
             if (guessWord.isNotEmpty()) {
                 guessText.text = guessWord.first()
                 val stringMinor = guessWord.reduce { acc, string ->

@@ -23,11 +23,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        setupActionBarWithNavController(findNavController(binding.navHostFragment.id))
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return (Navigation.findNavController(binding.navHostFragment).navigateUp()
-                || super.onSupportNavigateUp())
-    }
 }
