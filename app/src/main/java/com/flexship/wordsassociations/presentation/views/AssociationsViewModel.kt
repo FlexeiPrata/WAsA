@@ -9,28 +9,28 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class AssociationsViewModel @Inject constructor(
     private val getWordsResponseUseCase: GetWordsResponseUseCase
-) : BaseViewModel<MenuFragment.MainActions, MenuFragment.MainStates>() {
+) : BaseViewModel<AssociationsFragment.MainActions, AssociationsFragment.MainStates>() {
 
-    override val state: MutableStateFlow<MenuFragment.MainStates> =
-        MutableStateFlow(MenuFragment.MainStates.Default)
+    override val state: MutableStateFlow<AssociationsFragment.MainStates> =
+        MutableStateFlow(AssociationsFragment.MainStates.Default)
 
     private val listOfChips = mutableListOf<String>()
 
-    override fun handleAction(action: MenuFragment.MainActions) {
+    override fun handleAction(action: AssociationsFragment.MainActions) {
         when (action) {
-            is MenuFragment.MainActions.GetWordsStimulus -> getWords(action.word)
-            is MenuFragment.MainActions.AddChip -> listOfChips.add((action.chip))
-            is MenuFragment.MainActions.RemoveChip -> listOfChips.remove((action.chip))
+            is AssociationsFragment.MainActions.GetWordsStimulus -> getWords(action.word)
+            is AssociationsFragment.MainActions.AddChip -> listOfChips.add((action.chip))
+            is AssociationsFragment.MainActions.RemoveChip -> listOfChips.remove((action.chip))
         }
     }
 
     private fun getWords(word: String) {
         viewModelScope.launchOnNetwork(errorHandler) {
-            state.value = MenuFragment.MainStates.Loading
+            state.value = AssociationsFragment.MainStates.Loading
             val response = getWordsResponseUseCase(word, listOfChips)
-            state.value = MenuFragment.MainStates.SubmitList(response)
+            state.value = AssociationsFragment.MainStates.SubmitList(response)
         }
     }
 }

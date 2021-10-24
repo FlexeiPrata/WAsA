@@ -1,6 +1,5 @@
 package com.flexship.wordsassociations.common
 
-import java.lang.Exception
 import java.util.*
 
 object IntentDataHolder {
@@ -18,12 +17,9 @@ object IntentDataHolder {
     @Suppress("UNCHECKED_CAST")
     fun <T> getFromStore(key: UUID): T? {
         return try {
-            values[key] as T
+            values.remove(key) as T
         } catch (ex: Exception) {
             null
-        }.also {
-            values.remove(key)
         }
     }
-
 }

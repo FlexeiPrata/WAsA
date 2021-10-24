@@ -1,7 +1,6 @@
 package com.flexship.wordsassociations.presentation.uimodels
 
 import com.flexship.wordsassociations.common.Item
-import com.flexship.wordsassociations.common.Payloadable
 import com.flexship.wordsassociations.data.models.Words
 
 data class WordUIModel(

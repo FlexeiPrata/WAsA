@@ -13,7 +13,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChFragment : BaseFragment<FragmentChBinding, ChFragment.ChState, ChViewModel>() {
+class StartMenuFragment : BaseFragment<FragmentChBinding, StartMenuFragment.ChState, StartMenuViewModel>() {
 
     sealed class ChState : State {
         object Default: ChState()
@@ -21,14 +21,14 @@ class ChFragment : BaseFragment<FragmentChBinding, ChFragment.ChState, ChViewMod
 
     sealed class ChAction : Action
 
-    override val viewModel: ChViewModel by viewModels()
+    override val viewModel: StartMenuViewModel by viewModels()
 
     override fun setupViews() {
         binding.buttonMain.setOnClickListener {
-            findNavController().navigate(ChFragmentDirections.actionChFragmentToMenuFragment())
+            findNavController().navigate(StartMenuFragmentDirections.actionChFragmentToMenuFragment())
         }
         binding.buttonGame1.setOnClickListener {
-            findNavController().navigate(ChFragmentDirections.actionChFragmentToGameFragment())
+            findNavController().navigate(StartMenuFragmentDirections.actionChFragmentToGameFragment())
         }
 
         binding.buttonInfo.setOnClickListener {

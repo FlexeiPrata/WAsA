@@ -17,9 +17,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class MenuFragment : BaseFragment<FragmentMenuBinding, MenuFragment.MainStates, MainViewModel>() {
+class AssociationsFragment : BaseFragment<FragmentMenuBinding, AssociationsFragment.MainStates, AssociationsViewModel>() {
 
-    override val viewModel: MainViewModel by viewModels()
+    override val viewModel: AssociationsViewModel by viewModels()
     private lateinit var adapter: WordsAdapter
 
     sealed class MainActions : Action {

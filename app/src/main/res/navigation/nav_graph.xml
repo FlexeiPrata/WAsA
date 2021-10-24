@@ -6,20 +6,12 @@
     app:startDestination="@id/chFragment">
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.flexship.wordsassociations.presentation.views.MenuFragment"
+        android:name="com.flexship.wordsassociations.presentation.views.AssociationsFragment"
         android:label="@string/asso_fragment">
-        <action
-            android:id="@+id/action_menuFragment_to_mainFragment3"
-            app:destination="@id/mainFragment3"
-            />
     </fragment>
     <fragment
-        android:id="@+id/mainFragment3"
-        android:name="com.flexship.wordsassociations.presentation.views.MainFragment"
-        android:label="MainFragment" />
-    <fragment
         android:id="@+id/chFragment"
-        android:name="com.flexship.wordsassociations.presentation.views.ChFragment"
+        android:name="com.flexship.wordsassociations.presentation.views.StartMenuFragment"
         android:label="@string/wasa">
         <action
             android:id="@+id/action_chFragment_to_menuFragment"
