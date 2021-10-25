@@ -17,8 +17,6 @@ abstract class BaseFragment<VB : ViewBinding, S : State, VM: BaseViewModel<*, S>
 
     abstract val viewModel: VM
 
-    open lateinit var state: S
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

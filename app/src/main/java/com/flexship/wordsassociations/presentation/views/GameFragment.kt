@@ -18,6 +18,7 @@ import com.flexship.wordsassociations.presentation.adapters.GuessAdapter
 import com.flexship.wordsassociations.presentation.uimodels.GuessUIModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, GameViewModel>() {
@@ -69,7 +70,7 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
     override fun setupStateObserver() {
         lifecycleScope.launchWhenCreated {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
+                viewModel.state.collectLatest {
                     render(it)
                 }
             }

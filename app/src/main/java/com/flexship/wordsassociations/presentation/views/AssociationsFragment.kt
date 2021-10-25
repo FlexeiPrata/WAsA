@@ -17,7 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class AssociationsFragment : BaseFragment<FragmentMenuBinding, AssociationsFragment.MainStates, AssociationsViewModel>() {
+class AssociationsFragment :
+    BaseFragment<FragmentMenuBinding, AssociationsFragment.MainStates, AssociationsViewModel>() {
 
     override val viewModel: AssociationsViewModel by viewModels()
     private lateinit var adapter: WordsAdapter
@@ -28,10 +29,10 @@ class AssociationsFragment : BaseFragment<FragmentMenuBinding, AssociationsFragm
         data class RemoveChip(val chip: String) : MainActions()
     }
 
-    sealed class MainStates() : State {
-        data class SubmitList(val list: List<Item>): MainStates()
-        object Loading: MainStates()
-        object Default: MainStates()
+    sealed class MainStates : State {
+        data class SubmitList(val list: List<Item>) : MainStates()
+        object Loading : MainStates()
+        object Default : MainStates()
     }
 
 
@@ -56,7 +57,7 @@ class AssociationsFragment : BaseFragment<FragmentMenuBinding, AssociationsFragm
     }
 
     private fun getChips(): List<String> {
-        return mutableListOf<String>(
+        return mutableListOf(
             getString(R.string.noun),
             getString(R.string.adjective),
             getString(R.string.verb),
@@ -119,7 +120,6 @@ class AssociationsFragment : BaseFragment<FragmentMenuBinding, AssociationsFragm
     override fun suspendLoading() {
         binding.progressBar.isVisible = false
     }
-
 
 
 }
