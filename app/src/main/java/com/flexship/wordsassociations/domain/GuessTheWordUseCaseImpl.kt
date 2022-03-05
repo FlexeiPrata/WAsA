@@ -15,8 +15,7 @@ class GuessTheWordUseCaseImpl @Inject constructor(private val repository: MainRe
             }
             return items.reduce { accumulated, next ->
                 val inter = accumulated.intersect(next).toList()
-                if (inter.isNotEmpty()) inter
-                else accumulated
+                inter.ifEmpty { accumulated }
             }
         }
         return emptyList()

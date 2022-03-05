@@ -29,6 +29,10 @@ class GameViewModel @Inject constructor(
                 listOfGuess.remove(action.chip)
                 state.value = GameFragment.GameState.SubmitWords(listOfGuess.mapToWordsUIModel())
             }
+            GameFragment.GameActions.Clear -> {
+                listOfGuess.clear()
+                state.value = GameFragment.GameState.Cleared
+            }
         }
     }
 

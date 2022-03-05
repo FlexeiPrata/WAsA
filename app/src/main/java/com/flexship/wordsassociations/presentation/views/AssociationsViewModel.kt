@@ -16,20 +16,20 @@ class AssociationsViewModel @Inject constructor(
     override val state: MutableStateFlow<AssociationsFragment.MainStates> =
         MutableStateFlow(AssociationsFragment.MainStates.Default)
 
-    private val listOfChips = mutableListOf<String>()
-
     override fun handleAction(action: AssociationsFragment.MainActions) {
         when (action) {
-            is AssociationsFragment.MainActions.GetWordsStimulus -> getWords(action.word)
-            is AssociationsFragment.MainActions.AddChip -> listOfChips.add((action.chip))
-            is AssociationsFragment.MainActions.RemoveChip -> listOfChips.remove((action.chip))
+            is AssociationsFragment.MainActions.GetWordsStimulus ->
+                getWords(
+                    action.word,
+                    action.chip
+                )
         }
     }
 
-    private fun getWords(word: String) {
+    private fun getWords(word: String, chip: String?) {
         viewModelScope.launchOnNetwork(errorHandler) {
             state.value = AssociationsFragment.MainStates.Loading
-            val response = getWordsResponseUseCase(word, listOfChips)
+            val response = getWordsResponseUseCase(word, chip)
             state.value = AssociationsFragment.MainStates.SubmitList(response)
         }
     }

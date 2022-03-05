@@ -9,15 +9,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.flexship.wordsassociations.R
-import com.flexship.wordsassociations.common.Action
 import com.flexship.wordsassociations.common.BaseFragment
+import com.flexship.wordsassociations.common.Intent
 import com.flexship.wordsassociations.common.State
 import com.flexship.wordsassociations.common.hideKeyboardFrom
 import com.flexship.wordsassociations.databinding.FragmentGameBinding
 import com.flexship.wordsassociations.presentation.adapters.GuessAdapter
 import com.flexship.wordsassociations.presentation.uimodels.GuessUIModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
@@ -32,11 +31,13 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
         data class SubmitHunch(var guessWord: List<String> = mutableListOf()) : GameState()
         object Loading : GameState()
         object Default : GameState()
+        object Cleared: GameState()
     }
 
-    sealed class GameActions : Action {
+    sealed class GameActions : Intent {
         data class AddWord(val word: String) : GameActions()
         data class DeleteChip(val chip: String) : GameFragment.GameActions()
+        object Clear : GameActions()
         object Guess : GameActions()
     }
 
@@ -59,6 +60,12 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
             guess.setOnClickListener {
                 viewModel.handleAction(GameActions.Guess)
                 hideKeyboardFrom(it)
+            }
+            binding.toolbar.setBackOnClickListener {
+                popBack()
+            }
+            binding.toolbar.setClearOnClickListener {
+                viewModel.handleAction(GameActions.Clear)
             }
             chips.layoutManager = LinearLayoutManager(requireContext())
             chips.adapter = adapter
@@ -98,6 +105,21 @@ class GameFragment : BaseFragment<FragmentGameBinding, GameFragment.GameState, G
             }
             GameState.Default -> binding.loadingBar.isVisible = false
             GameState.Loading -> binding.loadingBar.isVisible = true
+            GameState.Cleared -> {
+                binding.apply {
+                    guessLabel.isVisible = false
+                    guessText.isVisible = false
+                    guessLabel2.isVisible = false
+                    guessTextMinor.isVisible = false
+                    dividerGuess.isVisible = false
+                    textField.clearFocus()
+                    headerText.text =
+                        String.format(getString(R.string.guess_text, "0"))
+                    hideKeyboardFrom(root)
+                }
+                adapter.submitList(emptyList())
+
+            }
         }
     }
 

@@ -15,6 +15,8 @@ import com.flexship.wordsassociations.presentation.adapters.WordsAdapter
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.ExperimentalTime
 
 @AndroidEntryPoint
 class AssociationsFragment :
@@ -23,10 +25,8 @@ class AssociationsFragment :
     override val viewModel: AssociationsViewModel by viewModels()
     private lateinit var adapter: WordsAdapter
 
-    sealed class MainActions : Action {
-        data class GetWordsStimulus(val word: String) : MainActions()
-        data class AddChip(val chip: String) : MainActions()
-        data class RemoveChip(val chip: String) : MainActions()
+    sealed class MainActions : Intent {
+        data class GetWordsStimulus(val word: String, val chip: String?) : MainActions()
     }
 
     sealed class MainStates : State {
@@ -43,14 +43,17 @@ class AssociationsFragment :
         return FragmentMenuBinding.inflate(inflater, container, false)
     }
 
+    @OptIn(ExperimentalTime::class)
     override fun render(state: MainStates) {
         when (state) {
             MainStates.Default -> binding.progressBar.isVisible = false
             MainStates.Loading -> binding.progressBar.isVisible = true
             is MainStates.SubmitList -> {
                 adapter.submitList(state.list)
-                binding.recycler.smoothScrollToPosition(0)
-                binding.progressBar.isVisible = false
+                binding.recycler.viewSuspendAction(milliseconds(200)) {
+                    it.smoothScrollToPosition(0)
+                    binding.progressBar.isVisible = false
+                }
             }
         }
 
@@ -65,13 +68,13 @@ class AssociationsFragment :
         )
     }
 
-    private fun convertChip(chip: String): String {
+    private fun convertChip(chip: String?): String? {
         return when (chip) {
             getString(R.string.noun) -> "noun"
             getString(R.string.adjective) -> "adjective"
             getString(R.string.adverb) -> "adverb"
             getString(R.string.verb) -> "verb"
-            else -> ""
+            else -> null
         }
     }
 
@@ -85,25 +88,30 @@ class AssociationsFragment :
                 hideKeyboardFrom(binding.root)
                 textInput.clearFocus()
                 textField.clearFocus()
-                //Поменять
-                viewModel.handleAction(MainActions.GetWordsStimulus(textRequest))
+                viewModel.handleAction(
+                    MainActions.GetWordsStimulus(
+                        textRequest,
+                        convertChip(chips.getActiveChip()?.text?.toString())
+                    )
+                )
             }
         }
         getChips().forEach {
-
             val chip = Chip(requireContext())
             chip.text = it
             chip.isCheckable = true
-            chip.isChecked = true
-            chip.setOnClickListener { thisChip ->
-                if (thisChip is Chip) {
-                    val chipText = convertChip(thisChip.text.toString())
-                    if (thisChip.isChecked) viewModel.handleAction(MainActions.AddChip(chipText))
-                    else viewModel.handleAction(MainActions.RemoveChip(chipText))
-                }
-            }
+            chip.isChecked = false
             binding.chips.addView(chip)
-            viewModel.handleAction(MainActions.AddChip(convertChip(it)))
+        }
+        binding.toolbar.setClearOnClickListener {
+            adapter.submitList(emptyList())
+            binding.apply {
+                textInput.clearFocus()
+                textInput.setText("")
+            }
+        }
+        binding.toolbar.setBackOnClickListener {
+            popBack()
         }
     }
 

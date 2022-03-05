@@ -14,4 +14,5 @@
     <color name="daffodil">#E6DF44</color>
     <color name="gray_navy">#FBFBFB</color>
     <color name="sad_gray">#919191</color>
+    <color name="transparent">#00000000</color>
 </resources>

@@ -11,7 +11,7 @@ import javax.inject.Inject
 class GetWordsResponseUseCaseImpl @Inject constructor(private val repository: MainRepository) :
     GetWordsResponseUseCase {
 
-    override suspend fun invoke(word: String, pos: List<String>): List<Item> {
+    override suspend fun invoke(word: String, pos: String?): List<Item> {
         val response = repository.getWordsResponse(word, pos)
         val list = mutableListOf<Words>()
         list.addAll(response?.response?.get(0)?.items ?: emptyList())
@@ -22,16 +22,19 @@ class GetWordsResponseUseCaseImpl @Inject constructor(private val repository: Ma
                 add(HeaderUIModel("header1", R.string.fr_70))
                 addAll(strong.mapIndexed { index, words -> WordUIModel("strong$index", words) })
             }
+
             val medium = list.filter { it.weight in 31..70 }
             if (medium.isNotEmpty()) {
                 add(HeaderUIModel("header2", R.string.fr_30))
                 addAll(medium.mapIndexed { index, words -> WordUIModel("medium$index", words) })
             }
+
             val weak = list.filter { it.weight <= 30 }
-            if (medium.isNotEmpty()) {
+            if (weak.isNotEmpty()) {
                 add(HeaderUIModel("header2", R.string.fr_0))
                 addAll(weak.mapIndexed { index, words -> WordUIModel("weak$index", words) })
             }
+
         }
 
     }

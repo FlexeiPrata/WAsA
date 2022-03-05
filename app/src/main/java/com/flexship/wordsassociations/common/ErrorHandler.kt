@@ -1,13 +1,18 @@
 package com.flexship.wordsassociations.common
 
+import android.content.Context
+import android.widget.Toast
 import com.flexship.wordsassociations.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
-import java.io.IOException
+import java.lang.ref.WeakReference
 import java.net.UnknownHostException
 
-class ErrorHandler(private val baseHandling: (Int) -> Unit) {
+class ErrorHandler(context: Context, val errorCallback: (Error) -> Unit) {
+
+    private val context = WeakReference(context)
+
     suspend fun handleError(exception: Exception) {
         val message = when (exception) {
             is UnknownHostException -> R.string.no_internet_connection
@@ -22,7 +27,14 @@ class ErrorHandler(private val baseHandling: (Int) -> Unit) {
             else -> R.string.generic_error
         }
         withContext(Dispatchers.Main) {
-            baseHandling(message)
+            context.get()?.let { fragmentContext ->
+                Toast.makeText(fragmentContext, fragmentContext.getString(message), Toast.LENGTH_LONG).show()
+                errorCallback(Error.MessageError)
+            }
         }
     }
+}
+
+enum class Error {
+    MessageError
 }
